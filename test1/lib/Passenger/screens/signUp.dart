@@ -17,6 +17,26 @@ class _SignUpState extends State<SignUp> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Form key for validation
 
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,10 +230,8 @@ class _SignUpState extends State<SignUp> {
                                 SnackBar(content: Text(response)),
                               );
                             } else {
-                              // Show a message if validation fails
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Please fill all fields correctly')),
-                              );
+                              // Show a generic error message if validation fails
+                              _showErrorDialog('Please fill all fields correctly.');
                             }
                           },
                           style: ElevatedButton.styleFrom(

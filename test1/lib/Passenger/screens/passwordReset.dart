@@ -15,6 +15,27 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   final _confirmPasswordController = TextEditingController();
   final PasswordResetAPI _passwordResetAPI = PasswordResetAPI();
 
+  // Method to show error in an AlertDialog
+  void _showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text(errorMessage),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _resetPassword() async {
     final email = _emailController.text.trim();
     final newPassword = _newPasswordController.text.trim();
@@ -22,25 +43,19 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
 
     // Validate that all fields are filled
     if (email.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill all fields")),
-      );
+      _showErrorDialog("Please fill all fields");
       return;
     }
 
     // Validate the email format
     if (!EmailValidator.validate(email)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please enter a valid email address")),
-      );
+      _showErrorDialog("Please enter a valid email address");
       return;
     }
 
     // Validate that passwords match
     if (newPassword != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Passwords do not match")),
-      );
+      _showErrorDialog("Passwords do not match");
       return;
     }
 
@@ -53,9 +68,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
       );
       Navigator.pushNamed(context, '/login');
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to reset password")),
-      );
+      _showErrorDialog("Failed to reset password");
     }
   }
 

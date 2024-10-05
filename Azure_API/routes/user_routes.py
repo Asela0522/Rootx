@@ -87,3 +87,33 @@ def signin():
         }}), 200
     else:
         return jsonify({'error': 'Invalid password!'}), 401
+
+@bp.route('/fromLocations', methods=['GET'])
+def get_from_locations():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT DISTINCT Start_Location FROM businfo")  # Query to get distinct start locations
+        locations = cur.fetchall()
+        cur.close()
+
+        # Extract the locations from the query result
+        start_locations = [location['Start_Location'] for location in locations]
+        return jsonify(start_locations)  # Return as JSON response
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "Error fetching locations"}), 500
+
+@bp.route('/toLocations', methods=['GET'])
+def get_to_locations():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT DISTINCT End_Location FROM businfo")  # Query to get distinct end locations
+        locations = cur.fetchall()
+        cur.close()
+
+        # Extract the locations from the query result
+        end_locations = [location['End_Location'] for location in locations]
+        return jsonify(end_locations)  # Return as JSON response
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "Error fetching locations"}), 500

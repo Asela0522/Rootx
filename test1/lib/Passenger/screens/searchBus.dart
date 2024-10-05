@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test1/Passenger/API/api/api_bus_search.dart'; // Import the backend API file // Import the backend API file
 
 class SearchBus extends StatelessWidget {
   const SearchBus({super.key});
@@ -7,7 +8,7 @@ class SearchBus extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'searchBus',
+      title: 'Search Bus',
       theme: ThemeData(
         primarySwatch: Colors.orange,
         scaffoldBackgroundColor: Colors.white,
@@ -30,13 +31,51 @@ class BusBookingScreen extends StatefulWidget {
 
 class _BusBookingScreenState extends State<BusBookingScreen> {
   DateTime? selectedDate;
-
-  // Separate lists for "From" and "To" dropdowns
-  final List<String> fromLocations = ['Makubura'];
-  final List<String> toLocations = ['Matara'];
+  List<String> fromLocations = []; // This will hold the dynamic locations from the API
+  List<String> toLocations = [];
 
   String? selectedFromLocation;
   String? selectedToLocation;
+
+  bool isLoadingFromLocations = true;
+  bool isLoadingToLocations = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchFromLocations(); // Fetch the "from" locations when the screen loads
+    _fetchToLocations(); // Fetch the "to" locations
+  }
+
+  Future<void> _fetchFromLocations() async {
+    var locations = await ApiService.fetchFromLocations(); // Fetch locations from API
+    if (locations != null) {
+      setState(() {
+        fromLocations = locations;
+        isLoadingFromLocations = false;
+      });
+    } else {
+      // Handle error if locations could not be fetched
+      setState(() {
+        isLoadingFromLocations = false;
+      });
+    }
+  }
+
+  Future<void> _fetchToLocations() async {
+    var locations = await ApiService.fetchToLocations(); // Fetch locations from API
+    if (locations != null) {
+      setState(() {
+        toLocations = locations;
+        isLoadingToLocations = false;
+      });
+    } else {
+      // Handle error if locations could not be fetched
+      setState(() {
+        isLoadingToLocations = false;
+      });
+    }
+  }
 
   // Function to open a date picker
   Future<void> _selectDate(BuildContext context) async {
@@ -84,15 +123,17 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              // Dropdown for "From" location
-              buildDropdownField('From', selectedFromLocation, fromLocations, (value) {
+              isLoadingFromLocations
+                  ? const CircularProgressIndicator()
+                  : buildDropdownField('From', selectedFromLocation, fromLocations, (value) {
                 setState(() {
                   selectedFromLocation = value;
                 });
               }),
               const SizedBox(height: 16),
-              // Dropdown for "To" location
-              buildDropdownField('To', selectedToLocation, toLocations, (value) {
+              isLoadingToLocations
+                  ? const CircularProgressIndicator()
+                  : buildDropdownField('To', selectedToLocation, toLocations, (value) {
                 setState(() {
                   selectedToLocation = value;
                 });
@@ -119,13 +160,23 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                   ),
                 ),
               const SizedBox(height: 24),
-              Center(
-                child: Image.asset('assets/images/bus2.png', height: 150),
-              ),
-              const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () {
-                  // Add your search logic here
+                onPressed: () async {
+                  // Call the backend API to search for buses
+                  if (selectedFromLocation != null && selectedToLocation != null && selectedDate != null) {
+                    var result = await ApiService.searchBus(
+                      from: selectedFromLocation!,
+                      to: selectedToLocation!,
+                      date: selectedDate!,
+                    );
+                    if (result != null) {
+                      // Display result or handle accordingly
+                      print(result);
+                    } else {
+                      // Handle error
+                      print('Error searching bus');
+                    }
+                  }
                 },
                 child: const Text('Search Bus', style: TextStyle(color: Colors.black)),
                 style: ElevatedButton.styleFrom(
@@ -134,7 +185,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                   textStyle: const TextStyle(fontSize: 16),
                 ),
               ),
-              const SizedBox(height: 80), // Add extra space at the bottom
+              const SizedBox(height: 80),
             ],
           ),
         ),
@@ -157,10 +208,10 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
   // Helper function to build dropdown fields
   Widget buildDropdownField(String label, String? selectedValue, List<String> items, ValueChanged<String?> onChanged) {
     return Container(
-      width: 300, // Set a custom width for the dropdown
+      width: 300,
       child: DropdownButtonFormField<String>(
         value: selectedValue,
-        isExpanded: true, // Expands the dropdown text to take full width
+        isExpanded: true,
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(
