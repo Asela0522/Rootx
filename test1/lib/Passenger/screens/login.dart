@@ -52,7 +52,7 @@ class _LoginPage1State extends State<LoginPage1> {
             TextButton(
               onPressed: () {
                 // Navigator.of(context).pop();
-                Navigator.pushNamed(context, '/SearchBus'); //flutter navigation section
+                Navigator.pushNamed(context, '/Login_Home_Screen'); //flutter navigation section
                 // Navigate to the next screen or home page
               },
               child: const Text('OK'),

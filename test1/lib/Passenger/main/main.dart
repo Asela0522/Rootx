@@ -1,12 +1,16 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:test1/Passenger/screens/home.dart';
 import 'package:test1/Passenger/screens/passwordReset.dart';
 import 'package:test1/Passenger/screens/homeScreen1.dart';  // Import HomeScreen1
 import 'package:test1/Passenger/screens/homeScreen2.dart'; // Import HomeScreen1
 import 'package:test1/Passenger/screens/login.dart';  // Import loginScreen
 import 'package:test1/Passenger/screens/searchBus.dart';
 import 'package:test1/Passenger/screens/signUp.dart';  // Import loginScreen
+
+
+
 
 // Import profile scree
 
@@ -37,6 +41,8 @@ class MyApp extends StatelessWidget {
          '/password reset': (context) =>  PasswordResetScreen(),
          '/sign up': (context) =>  SignUp(),
         '/SearchBus':(context) => SearchBus(),
+        '/Login_Home_Screen':(context) => PaymentScreen(),
+        '/Login_Home_Screen_test':(context) => HomeScreen1(),
      
         //'/profile': (context) => ProfileScreen(),
         // Add routes for other screens/interfaces

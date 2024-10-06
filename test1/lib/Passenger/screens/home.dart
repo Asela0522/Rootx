@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(RootXApp());
-
-class RootXApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: PaymentScreen(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
+import 'package:test1/Passenger/screens/searchBus.dart';
 
 class PaymentScreen extends StatefulWidget {
   @override
@@ -18,7 +7,26 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  String username = "UserName"; // Placeholder for the username
+  String username = "Asela"; // Placeholder for the username
+  int _selectedIndex = 0; // For tracking the selected bottom navigation bar item
+
+  // List of screens to navigate to
+  final List<Widget> _screens = [
+    HomeScreen(),
+    BusScreen(),
+    LocationScreen(),
+    ProfileScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;  // Update the selected index
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => _screens[index]),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +72,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color:
-                    Color.fromRGBO(255, 220, 188, 1), // Light orange background
+                color: Color.fromRGBO(255, 220, 188, 1), // Light orange background
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -80,8 +87,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 169, 89,
-                          1), // Orange color for the text background
+                      color: Color.fromRGBO(255, 169, 89, 1), // Orange color for the text background
                       borderRadius: BorderRadius.circular(20), // Rounded box
                     ),
                     child: Text(
@@ -111,6 +117,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   icon: Icons.credit_card,
                   label: 'Card Payment',
                   onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SearchBus()),
+                    );
                     // Handle Card Payment
                     print("Card Payment Clicked");
                   },
@@ -123,20 +133,70 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor:
-            const Color.fromRGBO(255, 169, 89, 1), // Orange background
+        backgroundColor: const Color.fromRGBO(255, 169, 89, 1), // Orange background
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
+        currentIndex: _selectedIndex, // Show the current index
+        onTap: _onItemTapped, // Handle tap
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.directions_bus), label: 'Bus'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.location_on), label: 'Location'),
+          BottomNavigationBarItem(icon: Icon(Icons.directions_bus), label: 'Bus'),
+          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Location'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );
+  }
+}
+
+
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Add Scaffold for proper layout
+      appBar: AppBar(
+        title: Text("Home Screen"),
+      ),
+      body: Center( // Center the button
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/login'); // Navigates to the LoginPage1
+          },
+          child: Text("Go to Login"),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+class BusScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("Bus Screen"));
+  }
+}
+
+class LocationScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("Location Screen"));
+  }
+}
+
+class ProfileScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("Profile Screen"));
   }
 }
 
