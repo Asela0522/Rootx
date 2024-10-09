@@ -95,19 +95,19 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text('Book Your Seat')),
-        backgroundColor: Colors.orange,
-        toolbarHeight: 100,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              // Add your action here, e.g., open a drawer or menu
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Center(child: Text('Book Your Seat')),
+      //   backgroundColor: Colors.orange,
+      //   toolbarHeight: 100,
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.menu),
+      //       onPressed: () {
+      //         // Add your action here, e.g., open a drawer or menu
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -190,18 +190,18 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.orange,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.directions_bus), label: 'Bus'),
-          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Location'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.fixed,
+      //   backgroundColor: Colors.orange,
+      //   selectedItemColor: Colors.white,
+      //   unselectedItemColor: Colors.white70,
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.directions_bus), label: 'Bus'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Location'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+      //   ],
+      // ),
     );
   }
 

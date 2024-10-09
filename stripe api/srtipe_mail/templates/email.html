@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .content {
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .ticket-details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .ticket-details p {
+            margin: 5px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888888;
+            font-size: 12px;
+        }
+
+        .social-icons img {
+            width: 24px;
+            margin: 0 5px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {{ data['app_name'] }} Bus Ticket
+        </div>
+        <div class="content">
+            <p>{{ data['body'] }}</p>
+
+            <div class="ticket-details">
+                <p><strong>Passenger Name:</strong> {{ data['passenger_name'] }}</p>
+                <p><strong>Bus Route:</strong> {{ data['bus_route'] }}</p>
+                <p><strong>Bus Number:</strong> {{ data['bus_number'] }}</p>
+                <p><strong>Seat Number:</strong> {{ data['seat_number'] }}</p>
+                <p><strong>Date:</strong> {{ data['date'] }}</p>
+                <p><strong>Time:</strong> {{ data['time'] }}</p>
+                <p><strong>Ticket Price:</strong> {{ data['price'] }}</p>
+            </div>
+
+            <p>If you have any questions, please contact us at {{ data['Contact'] }} or visit us at {{ data['website'] }}.</p>
+
+            <a href="{{ data['website'] }}" class="btn">Visit our Website</a>
+        </div>
+        <div class="footer">
+            <p>{{ data['footer'] }}</p>
+            <div class="social-icons">
+                <a href="{{ data['facebook'] }}"><img src="https://image.flaticon.com/icons/png/512/174/174848.png" alt="Facebook"></a>
+                <a href="{{ data['twitter'] }}"><img src="https://image.flaticon.com/icons/png/512/174/174876.png" alt="Twitter"></a>
+                <a href="{{ data['instagram'] }}"><img src="https://image.flaticon.com/icons/png/512/174/174855.png" alt="Instagram"></a>
+                <a href="{{ data['youtube'] }}"><img src="https://image.flaticon.com/icons/png/512/174/174883.png" alt="YouTube"></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

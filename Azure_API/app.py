@@ -19,4 +19,4 @@ mysql = MySQL(app)
 app.register_blueprint(user_routes.bp)
 
 if __name__ == '__main__':
-    app.run(host='10.11.3.159', port=5000, debug=True)
+    app.run(host='10.11.3.159', port=5000,debug=True)

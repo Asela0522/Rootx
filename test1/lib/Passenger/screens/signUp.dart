@@ -3,6 +3,8 @@ import 'package:test1/Passenger/screens/login.dart';
 import 'package:test1/Passenger/API/api/signup_api.dart'; // Import the backend API file
 
 class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -265,7 +267,7 @@ class _SignUpState extends State<SignUp> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage1()), // Navigate to loginPage1
+                        MaterialPageRoute(builder: (context) => const LoginPage1()), // Navigate to loginPage1
                       );
                     },
                     child: const Text(

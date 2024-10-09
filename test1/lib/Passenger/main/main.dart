@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
          '/sign up': (context) =>  SignUp(),
         '/SearchBus':(context) => SearchBus(),
         '/Login_Home_Screen':(context) => PaymentScreen(),
-        '/Login_Home_Screen_test':(context) => HomeScreen1(),
+        // '/Login_Home_Screen_test':(context) => HomeScreen1(),
      
         //'/profile': (context) => ProfileScreen(),
         // Add routes for other screens/interfaces

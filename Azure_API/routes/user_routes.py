@@ -34,7 +34,7 @@ def signup():
     mysql.connection.commit()
     cur.close()
 
-    return jsonify({'message': 'User registered successfully!'}), 201
+    # return jsonify({'message': 'User registered successfully!'}), 201
 
 
 @bp.route('/reset_password', methods=['POST'])
