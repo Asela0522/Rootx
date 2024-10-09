@@ -16,7 +16,7 @@ app.config['MAIL_SERVER'] = "smtp.googlemail.com" # SMTP server
 app.config['MAIL_PORT'] = 587 # SMTP port
 app.config['MAIL_USE_TLS'] = True # For security
 app.config['MAIL_USERNAME'] = "aselarohana0522@gmail.com" # Email address
-app.config['MAIL_PASSWORD'] = "hsdm rnre mrbz ptta" # Use an App Password instead of your actual password
+app.config['MAIL_PASSWORD'] = '" # Use an App Password instead of your actual password
 
 mail = Mail(app)
 
