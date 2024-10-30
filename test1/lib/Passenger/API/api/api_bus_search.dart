@@ -40,7 +40,25 @@ class ApiService {
     }
   }
 
-  static searchBus({required String from, required String to, required DateTime date}) {}
+  // Search for buses based on the selected locations and date
+  static Future<List<Map<String, dynamic>>?> searchBus({
+    required String from,
+    required String to,
+    required DateTime date,
+  }) async {
+    try {
+      final url = Uri.parse('$baseUrl/buses_information?from=$from&to=$to&date=${date.toIso8601String()}');
+      final response = await http.get(url);
 
-// Search for buses based on the selected locations and date
+      if (response.statusCode == 200) {
+        return List<Map<String, dynamic>>.from(jsonDecode(response.body));
+      } else {
+        print('Error: ${response.statusCode}');
+        return null;
+      }
+    } catch (error) {
+      print('Error: $error');
+      return null;
+    }
+  }
 }
