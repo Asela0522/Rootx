@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test1/Passenger/GPS/Google_Map.dart';
 import 'package:test1/Passenger/screens/Payment_Option_Selection.dart';  // Import your Location screen
 import 'package:test1/Passenger/screens/busBooking1.dart';
 import 'package:test1/Passenger/screens/login.dart';   // Import your Profile screen
@@ -20,7 +21,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final List<Widget> _screens = [
     const PaymentHomeScreen(),      // Home scree
      BusSelectionScreen(),
-    const LoginPage1(),// Location screen
+    MapScreen(),// Location screen
     const ProfilePage(),         // Profile screen
   ];
 
