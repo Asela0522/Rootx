@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test1/Passenger/API/api/bus_api.dart';  // Import your backend connectivity here.
+import 'package:test1/Passenger/API/api/bus_api.dart'; // Import your backend connectivity here.
 
 class BusSelectionScreen extends StatefulWidget {
   const BusSelectionScreen({super.key});
@@ -19,7 +19,8 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
   }
 
   Future<void> fetchBusData() async {
-    var busData = await BusApi.getBusInformation(); // Call the backend API here.
+    var busData =
+        await BusApi.getBusInformation(); // Call the backend API here.
     setState(() {
       buses = busData;
       isLoading = false;
@@ -32,11 +33,11 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-        itemCount: buses.length,
-        itemBuilder: (context, index) {
-          return BusCard(bus: buses[index]);
-        },
-      ),
+              itemCount: buses.length,
+              itemBuilder: (context, index) {
+                return BusCard(bus: buses[index]);
+              },
+            ),
     );
   }
 }
@@ -44,7 +45,7 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
 class BusCard extends StatelessWidget {
   final Map<String, dynamic> bus;
 
-  const BusCard({Key? key, required this.bus}) : super(key: key);
+  const BusCard({super.key, required this.bus});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,8 @@ class BusCard extends StatelessWidget {
               children: [
                 const Icon(Icons.directions_bus, color: Colors.orange),
                 const SizedBox(width: 8),
-                Text(bus['Bus_Name'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(bus['Bus_Name'],
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 8),

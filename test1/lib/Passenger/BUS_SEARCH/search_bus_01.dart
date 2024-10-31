@@ -107,19 +107,21 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
           children: [
             isLoadingFromLocations
                 ? const CircularProgressIndicator()
-                : buildDropdownField('From', selectedFromLocation, fromLocations, (value) {
-              setState(() {
-                selectedFromLocation = value;
-              });
-            }),
+                : buildDropdownField(
+                    'From', selectedFromLocation, fromLocations, (value) {
+                    setState(() {
+                      selectedFromLocation = value;
+                    });
+                  }),
             const SizedBox(height: 16),
             isLoadingToLocations
                 ? const CircularProgressIndicator()
-                : buildDropdownField('To', selectedToLocation, toLocations, (value) {
-              setState(() {
-                selectedToLocation = value;
-              });
-            }),
+                : buildDropdownField('To', selectedToLocation, toLocations,
+                    (value) {
+                    setState(() {
+                      selectedToLocation = value;
+                    });
+                  }),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () => _selectDate(context),
@@ -129,12 +131,15 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
             if (selectedDate != null)
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: Text('Selected Date: ${selectedDate!.toLocal()}'.split(' ')[0]),
+                child: Text(
+                    'Selected Date: ${selectedDate!.toLocal()}'.split(' ')[0]),
               ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () async {
-                if (selectedFromLocation != null && selectedToLocation != null && selectedDate != null) {
+                if (selectedFromLocation != null &&
+                    selectedToLocation != null &&
+                    selectedDate != null) {
                   var result = await ApiService.searchBus(
                     from: selectedFromLocation!,
                     to: selectedToLocation!,
@@ -144,12 +149,14 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BusSelectionScreen(busData: result),
+                        builder: (context) =>
+                            BusSelectionScreen(busData: result),
                       ),
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('No buses found. Please try again.')),
+                      const SnackBar(
+                          content: Text('No buses found. Please try again.')),
                     );
                   }
                 } else {
@@ -158,8 +165,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                   );
                 }
               },
-              child: const Text('Search Bus'),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              child: const Text('Search Bus'),
             ),
           ],
         ),
@@ -167,12 +174,17 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     );
   }
 
-  Widget buildDropdownField(String label, String? selectedValue, List<String> items, ValueChanged<String?> onChanged) {
+  Widget buildDropdownField(String label, String? selectedValue,
+      List<String> items, ValueChanged<String?> onChanged) {
     return DropdownButtonFormField<String>(
       value: selectedValue,
       isExpanded: true,
-      decoration: InputDecoration(labelText: label, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-      items: items.map((item) => DropdownMenuItem(value: item, child: Text(item))).toList(),
+      decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+      items: items
+          .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+          .toList(),
       onChanged: onChanged,
     );
   }
