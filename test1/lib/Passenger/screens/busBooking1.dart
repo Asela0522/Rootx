@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test1/Passenger/API/api/bus_api.dart';  // Import your backend connectivity here.
+import 'package:test1/Passenger/API/api/bus_api.dart'; // Import your backend connectivity here.
 
 class BusSelectionScreen extends StatefulWidget {
   const BusSelectionScreen({super.key});
@@ -29,13 +29,39 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bus Selection'),
+        backgroundColor: Colors.orange,
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                isLoading = true;
+                fetchBusData(); // Refresh data
+              });
+            },
+          ),
+        ],
+      ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: _buildLoadingIndicator())
           : ListView.builder(
         itemCount: buses.length,
         itemBuilder: (context, index) {
           return BusCard(bus: buses[index]);
         },
+      ),
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return SizedBox(
+      width: 60,
+      height: 60,
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
       ),
     );
   }
@@ -49,35 +75,59 @@ class BusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      elevation: 8, // Shadow for depth
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15), // Rounded corners
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const Icon(Icons.directions_bus, color: Colors.orange),
+                const Icon(Icons.directions_bus, color: Colors.orange, size: 30),
                 const SizedBox(width: 8),
-                Text(bus['Bus_Name'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                Expanded(
+                  child: Text(
+                    bus['Bus_Name'],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+                Text(
+                  'Rs. ${bus['Ticket_Price']}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.green,
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildInfoColumn('Price', 'Rs.${bus['Ticket_Price']}'),
-                _buildInfoColumn('Seats', '${bus['Total_Seats']}'),
-                _buildInfoColumn('Time', bus['Start_Time']),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildInfoColumn('Route', bus['Route_Number']),
-                _buildInfoColumn('Start', bus['Start_Location']),
-                _buildInfoColumn('End', bus['End_Location']),
-              ],
+            const SizedBox(height: 10),
+            _buildInfoRow('Seats', '${bus['Total_Seats']}'),
+            _buildInfoRow('Route', bus['Route_Number']),
+            _buildInfoRow('Start', bus['Start_Location']),
+            _buildInfoRow('End', bus['End_Location']),
+            _buildInfoRow('Time', bus['Start_Time']),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                // Implement booking functionality here
+                // For example: Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text('Book Now'),
             ),
           ],
         ),
@@ -85,13 +135,25 @@ class BusCard extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoColumn(String title, String value) {
-    return Column(
-      children: [
-        Text(title, style: const TextStyle(fontSize: 12, color: Colors.grey)),
-        const SizedBox(height: 4),
-        Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
-      ],
+  Widget _buildInfoRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
