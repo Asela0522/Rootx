@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart'; // Import the library
 import 'package:test1/Passenger/GPS/Google_Map.dart';
 import 'package:test1/Passenger/screens/Payment_Option_Selection.dart';
 import 'package:test1/Passenger/screens/busBooking1.dart';
@@ -34,6 +35,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5), // Light background
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back action
+            Navigator.pushNamed(context, '/');
+          },
+        ),
         elevation: 0,
         backgroundColor: const Color.fromRGBO(255, 169, 89, 1), // Orange color
         title: Row(
@@ -53,7 +61,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {
-              // Handle notification action
+              // Navigator.pushNamed(context, '/payment_option_selection');
             },
           ),
           IconButton(
@@ -64,8 +72,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ],
       ),
-      // Display the screen selected by BottomNavigationBar
-      body: _screens[_selectedIndex],
+      // Display the screen selected by BottomNavigationBar with animation
+      body: _screens[_selectedIndex].animate().fade(duration: 300.ms), // Fading effect
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: const Color.fromRGBO(255, 169, 89, 1), // Orange background
@@ -75,22 +83,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
         onTap: _onItemTapped, // Handle tap
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, size: 28), // Increased icon size
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.directions_bus),
+            icon: Icon(Icons.directions_bus, size: 28), // Increased icon size
             label: 'Bus',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
+            icon: Icon(Icons.location_on, size: 28), // Increased icon size
             label: 'Location',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person, size: 28), // Increased icon size
             label: 'Profile',
           ),
         ],
+        showSelectedLabels: true, // Show labels for selected items
+        showUnselectedLabels: true, // Show labels for unselected items
       ),
     );
   }

@@ -10,7 +10,7 @@ class SeatBookingScreen1 extends StatefulWidget {
 
 class _SeatBookingScreen1State extends State<SeatBookingScreen1> {
   List<List<String>> seats =
-      List.generate(11, (i) => List.generate(5, (j) => 'available'));
+  List.generate(11, (i) => List.generate(5, (j) => 'available'));
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _SeatBookingScreen1State extends State<SeatBookingScreen1> {
               onPressed: () {
                 // Check if at least one seat is selected
                 bool isAnySeatSelected =
-                    seats.any((row) => row.contains('selected'));
+                seats.any((row) => row.contains('selected'));
 
                 if (isAnySeatSelected) {
                   Navigator.push(
@@ -125,8 +125,8 @@ class _SeatBookingScreen1State extends State<SeatBookingScreen1> {
               color: seatStatus == 'available'
                   ? Colors.green
                   : seatStatus == 'booked'
-                      ? Colors.red
-                      : Colors.orange,
+                  ? Colors.red
+                  : Colors.orange,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Center(

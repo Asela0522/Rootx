@@ -42,21 +42,21 @@ class BusSelectionScreen extends StatelessWidget {
                       children: [
                         const Icon(Icons.location_on, color: Colors.orange),
                         const SizedBox(width: 4),
-                        Text('From: ${bus['Start_Location']}', style: TextStyle(fontSize: 16)),
+                        Text('From: ${bus['Start_Location']}', style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                     Row(
                       children: [
                         const Icon(Icons.arrow_forward, color: Colors.orange),
                         const SizedBox(width: 4),
-                        Text('To: ${bus['End_Location']}', style: TextStyle(fontSize: 16)),
+                        Text('To: ${bus['End_Location']}', style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                     Row(
                       children: [
                         const Icon(Icons.access_time, color: Colors.orange),
                         const SizedBox(width: 4),
-                        Text('Start Time: ${bus['Start_Time']}', style: TextStyle(fontSize: 16)),
+                        Text('Start Time: ${bus['Start_Time']}', style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                   ],
@@ -74,7 +74,7 @@ class BusSelectionScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SeatBookingScreen1(),
+                      builder: (context) => const SeatBookingScreen1(),
                     ),
                   );
                 },

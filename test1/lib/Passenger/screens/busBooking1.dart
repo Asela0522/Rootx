@@ -29,22 +29,22 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bus Selection'),
-        backgroundColor: Colors.orange,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                isLoading = true;
-                fetchBusData(); // Refresh data
-              });
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Bus Selection'),
+      //   backgroundColor: Colors.orange,
+      //   centerTitle: true,
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.refresh),
+      //       onPressed: () {
+      //         setState(() {
+      //           isLoading = true;
+      //           fetchBusData(); // Refresh data
+      //         });
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: isLoading
           ? Center(child: _buildLoadingIndicator())
           : ListView.builder(
@@ -57,7 +57,7 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
   }
 
   Widget _buildLoadingIndicator() {
-    return SizedBox(
+    return const SizedBox(
       width: 60,
       height: 60,
       child: CircularProgressIndicator(

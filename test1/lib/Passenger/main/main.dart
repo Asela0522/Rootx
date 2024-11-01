@@ -1,6 +1,10 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:test1/Passenger/profile/edit_profile_page.dart';
+import 'package:test1/Passenger/profile/notifications_page.dart';
+import 'package:test1/Passenger/profile/payments_page.dart';
+import 'package:test1/Passenger/profile/privacy_page.dart';
 import 'package:test1/Passenger/screens/home.dart';
 import 'package:test1/Passenger/screens/passwordReset.dart';
 import 'package:test1/Passenger/screens/homeScreen1.dart';  // Import HomeScreen1
@@ -38,9 +42,14 @@ class MyApp extends StatelessWidget {
         '/': (context) => const WelcomeScreen1(),
         '/welcome': (context) =>const  WelcomeScreen2(),
          '/login': (context) =>const  LoginPage1(),
-         '/password reset': (context) =>const   PasswordResetScreen(),
+        '/password reset': (context) =>const   PasswordResetScreen(),
          '/sign up': (context) =>const   SignUp(),
         '/Login_Home_Screen':(context) =>const  PaymentScreen(),
+        '/editProfile': (context) => const EditProfilePage(),
+        '/notifications': (context) => const NotificationsPage(),
+        '/privacy': (context) => const PrivacyPage(),
+        '/payments': (context) => const PaymentsPage(),
+
 
       },
     );
