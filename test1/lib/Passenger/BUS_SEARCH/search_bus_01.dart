@@ -109,7 +109,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/payments');  // please double check this navigation before demostration
           },
         ),
         title: const Text('Bus Search'),
