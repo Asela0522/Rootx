@@ -6,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class BusBookingScreen extends StatefulWidget {
-  const BusBookingScreen({Key? key}) : super(key: key);
+  const BusBookingScreen({super.key});
 
   @override
   State<BusBookingScreen> createState() => _BusBookingScreenState();
@@ -30,7 +30,16 @@ class BusBookingScreen extends StatefulWidget {
 
 class _BusBookingScreenState extends State<BusBookingScreen> {
   final List<int> selectedSeats = [];
-  final List<int> bookedSeats = [3, 4, 7, 8, 11, 12, 15, 16]; // Example booked seats
+  final List<int> bookedSeats = [
+    3,
+    4,
+    7,
+    8,
+    11,
+    12,
+    15,
+    16
+  ]; // Example booked seats
   static const double seatPrice = 25.0;
 
   @override
@@ -164,11 +173,11 @@ class BusSeatLayout extends StatelessWidget {
   final List<int> bookedSeats;
 
   const BusSeatLayout({
-    Key? key,
+    super.key,
     required this.onSeatSelected,
     required this.selectedSeats,
     required this.bookedSeats,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -287,8 +296,8 @@ class BusSeatLayout extends StatelessWidget {
           color: isBooked
               ? Colors.grey
               : isSelected
-              ? Colors.purple
-              : Colors.white,
+                  ? Colors.purple
+                  : Colors.white,
           border: Border.all(
             color: Colors.grey.shade300,
             width: 1,

@@ -21,11 +21,11 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Error"),
+          title: const Text("Error"),
           content: Text(errorMessage),
           actions: [
             TextButton(
-              child: Text("OK"),
+              child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
@@ -64,7 +64,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Password reset successfully")),
+        const SnackBar(content: Text("Password reset successfully")),
       );
       Navigator.pushNamed(context, '/login');
     } else {
@@ -86,14 +86,16 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
               width: double.infinity,
               decoration: const BoxDecoration(
                 color: Colors.orange,
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(50)),
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(50)),
               ),
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage('assets/images/passenger.png'), // Replace with your asset
+                    backgroundImage: AssetImage(
+                        'assets/images/passenger.png'), // Replace with your asset
                   ),
                 ],
               ),
@@ -169,7 +171,8 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 15),
                         ),
-                        child: const Text('Password Reset', style: TextStyle(fontSize: 18)),
+                        child: const Text('Password Reset',
+                            style: TextStyle(fontSize: 18)),
                       ),
                     ),
                   ),

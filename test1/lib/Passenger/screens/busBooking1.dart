@@ -19,7 +19,8 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
   }
 
   Future<void> fetchBusData() async {
-    var busData = await BusApi.getBusInformation(); // Call the backend API here.
+    var busData =
+        await BusApi.getBusInformation(); // Call the backend API here.
     setState(() {
       buses = busData;
       isLoading = false;
@@ -48,11 +49,12 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
       body: isLoading
           ? Center(child: _buildLoadingIndicator())
           : ListView.builder(
-        itemCount: buses.length,
-        itemBuilder: (context, index) {
-          return BusCard(bus: buses[index]);
-        },
-      ),
+              itemCount: buses.length,
+              itemBuilder: (context, index) {
+                return BusCard(bus: buses[index]);
+              },
+            ),
+<<<<<<< HEAD
     );
   }
 
@@ -63,6 +65,8 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
       child: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
       ),
+=======
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
     );
   }
 }
@@ -70,7 +74,7 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
 class BusCard extends StatelessWidget {
   final Map<String, dynamic> bus;
 
-  const BusCard({Key? key, required this.bus}) : super(key: key);
+  const BusCard({super.key, required this.bus});
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +91,10 @@ class BusCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.directions_bus, color: Colors.orange, size: 30),
+                const Icon(Icons.directions_bus,
+                    color: Colors.orange, size: 30),
                 const SizedBox(width: 8),
+<<<<<<< HEAD
                 Expanded(
                   child: Text(
                     bus['Bus_Name'],
@@ -107,6 +113,10 @@ class BusCard extends StatelessWidget {
                     color: Colors.green,
                   ),
                 ),
+=======
+                Text(bus['Bus_Name'],
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
               ],
             ),
             const SizedBox(height: 10),

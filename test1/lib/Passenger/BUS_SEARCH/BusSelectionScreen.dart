@@ -4,14 +4,13 @@ import 'package:intl/intl.dart';
 import '../Seat booking/test02.dart'; // Import intl package for number formatting
 // import 'package:test1/Passenger/Seat%20booking/SeatBookingScreen1.dart';
 
-
 class BusSelectionScreen extends StatelessWidget {
   final List<Map<String, dynamic>> busData;
 
   const BusSelectionScreen({
-    Key? key,
+    super.key,
     required this.busData,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +19,7 @@ class BusSelectionScreen extends StatelessWidget {
         title: const Text('Bus Selection'),
         backgroundColor: Colors.orange,
       ),
+<<<<<<< HEAD
       body: Container(
         color: Colors.grey[200],
         child: ListView.builder(
@@ -45,21 +45,24 @@ class BusSelectionScreen extends StatelessWidget {
                       children: [
                         const Icon(Icons.location_on, color: Colors.orange),
                         const SizedBox(width: 4),
-                        Text('From: ${bus['Start_Location']}', style: const TextStyle(fontSize: 16)),
+                        Text('From: ${bus['Start_Location']}',
+                            style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                     Row(
                       children: [
                         const Icon(Icons.arrow_forward, color: Colors.orange),
                         const SizedBox(width: 4),
-                        Text('To: ${bus['End_Location']}', style: const TextStyle(fontSize: 16)),
+                        Text('To: ${bus['End_Location']}',
+                            style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                     Row(
                       children: [
                         const Icon(Icons.access_time, color: Colors.orange),
                         const SizedBox(width: 4),
-                        Text('Start Time: ${bus['Start_Time']}', style: const TextStyle(fontSize: 16)),
+                        Text('Start Time: ${bus['Start_Time']}',
+                            style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                     Row(
@@ -94,6 +97,21 @@ class BusSelectionScreen extends StatelessWidget {
             );
           },
         ),
+=======
+      body: ListView.builder(
+        itemCount: busData.length,
+        itemBuilder: (context, index) {
+          final bus = busData[index];
+          return Card(
+            child: ListTile(
+              title: Text(bus['Bus_Name']),
+              subtitle: Text(
+                  'From: ${bus['Start_Location']} To: ${bus['End_Location']}'),
+              trailing: Text('\$${bus['Ticket_Price']}'),
+            ),
+          );
+        },
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
       ),
     );
   }

@@ -7,7 +7,7 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Colors.orange ,
+        backgroundColor: Colors.orange,
         title: const Text('Notifications'),
       ),
       body: ListView(
@@ -41,11 +41,11 @@ class NotificationCard extends StatelessWidget {
   final IconData icon;
 
   const NotificationCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

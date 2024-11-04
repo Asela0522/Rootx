@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BusBookingScreen extends StatefulWidget {
   final Map<String, dynamic> busData;
 
-  const BusBookingScreen({Key? key, required this.busData}) : super(key: key);
+  const BusBookingScreen({super.key, required this.busData});
 
   @override
   State<BusBookingScreen> createState() => _BusBookingScreenState();
@@ -152,12 +152,12 @@ class BusSeatLayout extends StatelessWidget {
   final int totalSeats; // New field for total seats
 
   const BusSeatLayout({
-    Key? key,
+    super.key,
     required this.onSeatSelected,
     required this.selectedSeats,
     required this.bookedSeats,
     required this.totalSeats,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -224,8 +224,8 @@ class BusSeatLayout extends StatelessWidget {
           color: isBooked
               ? Colors.grey
               : isSelected
-              ? Colors.purple
-              : Colors.white,
+                  ? Colors.purple
+                  : Colors.white,
           border: Border.all(
             color: Colors.grey.shade300,
             width: 1,

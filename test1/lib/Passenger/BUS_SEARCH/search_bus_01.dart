@@ -15,7 +15,8 @@ class SearchBus extends StatelessWidget {
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.black),
           bodyMedium: TextStyle(color: Colors.black),
-          titleLarge: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          titleLarge:
+              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       home: const BusBookingScreen(),
@@ -76,7 +77,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     }
   }
 
-  void _showLocationDialog(List<String> locations, Function(String) onLocationSelected) {
+  void _showLocationDialog(
+      List<String> locations, Function(String) onLocationSelected) {
     showDialog(
       context: context,
       builder: (context) {
@@ -109,7 +111,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushNamed(context, '/payments');  // please double check this navigation before demostration
+            Navigator.pushNamed(context,
+                '/payments'); // please double check this navigation before demostration
           },
         ),
         title: const Text('Bus Search'),
@@ -117,18 +120,22 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
+<<<<<<< HEAD
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20),
-              _buildLocationSelector('From', selectedFromLocation, fromLocations, (selectedLocation) {
+              _buildLocationSelector(
+                  'From', selectedFromLocation, fromLocations,
+                  (selectedLocation) {
                 setState(() {
                   selectedFromLocation = selectedLocation;
                 });
               }),
               const SizedBox(height: 16),
-              _buildLocationSelector('To', selectedToLocation, toLocations, (selectedLocation) {
+              _buildLocationSelector('To', selectedToLocation, toLocations,
+                  (selectedLocation) {
                 setState(() {
                   selectedToLocation = selectedLocation;
                 });
@@ -137,41 +144,100 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
               ElevatedButton(
                 onPressed: () => _selectDate(context),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                child: const Text('Select Date', style: TextStyle(fontSize: 18)),
+                child:
+                    const Text('Select Date', style: TextStyle(fontSize: 18)),
               ),
               if (selectedDate != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Text(
                     'Selected Date: ${selectedDate!.toLocal()}'.split(' ')[0],
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () async {
-                  if (selectedFromLocation != null && selectedToLocation != null && selectedDate != null) {
+                  if (selectedFromLocation != null &&
+                      selectedToLocation != null &&
+                      selectedDate != null) {
                     var result = await ApiService.searchBus(
                       from: selectedFromLocation!,
                       to: selectedToLocation!,
                       date: selectedDate!,
+=======
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            isLoadingFromLocations
+                ? const CircularProgressIndicator()
+                : buildDropdownField(
+                    'From', selectedFromLocation, fromLocations, (value) {
+                    setState(() {
+                      selectedFromLocation = value;
+                    });
+                  }),
+            const SizedBox(height: 16),
+            isLoadingToLocations
+                ? const CircularProgressIndicator()
+                : buildDropdownField('To', selectedToLocation, toLocations,
+                    (value) {
+                    setState(() {
+                      selectedToLocation = value;
+                    });
+                  }),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () => _selectDate(context),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              child: const Text('Select Date', style: TextStyle(fontSize: 18)),
+            ),
+            if (selectedDate != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                    'Selected Date: ${selectedDate!.toLocal()}'.split(' ')[0]),
+              ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () async {
+                if (selectedFromLocation != null &&
+                    selectedToLocation != null &&
+                    selectedDate != null) {
+                  var result = await ApiService.searchBus(
+                    from: selectedFromLocation!,
+                    to: selectedToLocation!,
+                    date: selectedDate!,
+                  );
+                  if (result != null && result.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            BusSelectionScreen(busData: result),
+                      ),
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
                     );
                     if (result != null && result.isNotEmpty) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BusSelectionScreen(busData: result),
+                          builder: (context) =>
+                              BusSelectionScreen(busData: result),
                         ),
                       );
                     } else {
-                      _showAlertDialog(context, 'No buses found. Please try again.');
+                      _showAlertDialog(
+                          context, 'No buses found. Please try again.');
                     }
                   } else {
+<<<<<<< HEAD
                     _showAlertDialog(context, 'Please select all fields.');
                   }
                 },
-                child: const Text('Search Bus', style: TextStyle(fontSize: 18)),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                child: const Text('Search Bus', style: TextStyle(fontSize: 18)),
               ),
             ],
           ),
@@ -180,7 +246,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     );
   }
 
-  Widget _buildLocationSelector(String label, String? selectedValue, List<String> locations, Function(String) onLocationSelected) {
+  Widget _buildLocationSelector(String label, String? selectedValue,
+      List<String> locations, Function(String) onLocationSelected) {
     return GestureDetector(
       onTap: () {
         if (label == 'From' && !isLoadingFromLocations) {
@@ -201,6 +268,21 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 3),
+=======
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('No buses found. Please try again.')),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please select all fields.')),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              child: const Text('Search Bus'),
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
             ),
           ],
         ),
@@ -218,6 +300,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     );
   }
 
+<<<<<<< HEAD
   void _showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -235,6 +318,20 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
           ],
         );
       },
+=======
+  Widget buildDropdownField(String label, String? selectedValue,
+      List<String> items, ValueChanged<String?> onChanged) {
+    return DropdownButtonFormField<String>(
+      value: selectedValue,
+      isExpanded: true,
+      decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+      items: items
+          .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+          .toList(),
+      onChanged: onChanged,
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:test1/Passenger/BUS_SEARCH/search_bus_01.dart';
 import 'package:test1/Passenger/QRcode/qr_scan.dart';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
 // import 'package:test1/Passenger/screens/searchBus.dart';
 
 // void main() {
@@ -25,7 +28,7 @@ import 'package:test1/Passenger/QRcode/qr_scan.dart';
 // }
 
 class PaymentHomeScreen extends StatelessWidget {
-  const  PaymentHomeScreen({super.key}); // Added key for refresh
+  const PaymentHomeScreen({super.key}); // Added key for refresh
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,8 @@ class PaymentHomeScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 220, 188, 1), // Light orange background
+                color: const Color.fromRGBO(
+                    255, 220, 188, 1), // Light orange background
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -63,9 +67,11 @@ class PaymentHomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     decoration: BoxDecoration(
-                      color: const Color.fromRGBO(255, 169, 89, 1), // Orange color for the text background
+                      color: const Color.fromRGBO(255, 169, 89,
+                          1), // Orange color for the text background
                       borderRadius: BorderRadius.circular(20), // Rounded box
                     ),
                     child: const Text(
@@ -89,7 +95,8 @@ class PaymentHomeScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>  const QRViewExample()),
+                      MaterialPageRoute(
+                          builder: (context) => const QRViewExample()),
                     );
                     // Handle QR Payment
                     // print("QR Payment Clicked");
@@ -101,7 +108,8 @@ class PaymentHomeScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const SearchBus()),
+                      MaterialPageRoute(
+                          builder: (context) => const SearchBus()),
                     );
 
                     // Handle Card Payment
@@ -123,7 +131,11 @@ class PaymentButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const PaymentButton({super.key, required this.icon, required this.label, required this.onTap});
+  const PaymentButton(
+      {super.key,
+      required this.icon,
+      required this.label,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
