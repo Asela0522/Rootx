@@ -1,9 +1,28 @@
+// main.dart
 import 'package:flutter/material.dart';
 
-class BusBookingScreen extends StatefulWidget {
-  final Map<String, dynamic> busData;
+void main() {
+  runApp(const MyApp());
+}
 
-  const BusBookingScreen({Key? key, required this.busData}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Bus Booking App',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        scaffoldBackgroundColor: const Color(0xFF1E2738),
+      ),
+      home: const BusBookingScreen(),
+    );
+  }
+}
+
+class BusBookingScreen extends StatefulWidget {
+  const BusBookingScreen({Key? key}) : super(key: key);
 
   @override
   State<BusBookingScreen> createState() => _BusBookingScreenState();
@@ -11,17 +30,8 @@ class BusBookingScreen extends StatefulWidget {
 
 class _BusBookingScreenState extends State<BusBookingScreen> {
   final List<int> selectedSeats = [];
-  late List<int> bookedSeats;
-  late int totalSeats;
+  final List<int> bookedSeats = [3, 4, 7, 8, 11, 12, 15, 16]; // Example booked seats
   static const double seatPrice = 25.0;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize bookedSeats and totalSeats from busData
-    bookedSeats = List<int>.from(widget.busData['Booked_Seats_Number'] ?? []);
-    totalSeats = widget.busData['Total_Seats'];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +50,6 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                   BusSeatLayout(
                     selectedSeats: selectedSeats,
                     bookedSeats: bookedSeats,
-                    totalSeats: totalSeats,
                     onSeatSelected: _handleSeatSelection,
                   ),
                   const SizedBox(height: 20),
@@ -55,8 +64,11 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     );
   }
 
+  // Add your _handleBooking method here
   void _handleBooking() {
+    // Implement your booking logic here
     if (selectedSeats.isNotEmpty) {
+      // For example, show a confirmation dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -75,6 +87,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
         },
       );
 
+      // Optionally clear selected seats after booking
       setState(() {
         selectedSeats.clear();
       });
@@ -149,14 +162,12 @@ class BusSeatLayout extends StatelessWidget {
   final Function(int) onSeatSelected;
   final List<int> selectedSeats;
   final List<int> bookedSeats;
-  final int totalSeats; // New field for total seats
 
   const BusSeatLayout({
     Key? key,
     required this.onSeatSelected,
     required this.selectedSeats,
     required this.bookedSeats,
-    required this.totalSeats,
   }) : super(key: key);
 
   @override
@@ -165,6 +176,7 @@ class BusSeatLayout extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          // Front indicator
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -175,22 +187,61 @@ class BusSeatLayout extends StatelessWidget {
             child: const Center(
               child: Text(
                 'FRONT',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
           const SizedBox(height: 20),
-          // Create a seat layout based on totalSeats
+
+          // Main seat layout
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for (int i = 1; i <= totalSeats; i++)
+              // Left side seats (2 columns)
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      _buildSeatColumn(1, 41, 4), // First column
+                      const SizedBox(width: 8),
+                      _buildSeatColumn(2, 42, 4), // Second column
+                    ],
+                  ),
+                ],
+              ),
+
+              // Aisle
+              const SizedBox(width: 24),
+
+              // Right side seats (2 columns)
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      _buildSeatColumn(3, 43, 4), // Third column
+                      const SizedBox(width: 8),
+                      _buildSeatColumn(4, 44, 4), // Fourth column
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Last row (seats 45-49)
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (int i = 45; i <= 49; i++)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: _buildSeat(i),
                 ),
             ],
           ),
+
+          // Rear indicator
           const SizedBox(height: 20),
           Container(
             width: double.infinity,
@@ -208,6 +259,18 @@ class BusSeatLayout extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSeatColumn(int startNum, int maxNum, int increment) {
+    return Column(
+      children: [
+        for (int i = startNum; i <= maxNum; i += increment)
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: _buildSeat(i),
+          ),
+      ],
     );
   }
 

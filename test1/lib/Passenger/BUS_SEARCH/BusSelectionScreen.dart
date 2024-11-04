@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:test1/Passenger/Seat booking/SeatBookingScreen1.dart';
-import 'package:intl/intl.dart'; // Import intl package for number formatting
+import 'package:intl/intl.dart';
+
+import '../Seat booking/test02.dart'; // Import intl package for number formatting
+// import 'package:test1/Passenger/Seat%20booking/SeatBookingScreen1.dart';
+
 
 class BusSelectionScreen extends StatelessWidget {
   final List<Map<String, dynamic>> busData;
@@ -18,16 +21,16 @@ class BusSelectionScreen extends StatelessWidget {
         backgroundColor: Colors.orange,
       ),
       body: Container(
-        color: Colors.grey[200], // Background color for the screen
+        color: Colors.grey[200],
         child: ListView.builder(
           itemCount: busData.length,
           itemBuilder: (context, index) {
             final bus = busData[index];
             return Card(
-              elevation: 5, // Add elevation for depth
+              elevation: 5,
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: ListTile(
-                contentPadding: const EdgeInsets.all(16.0), // Padding inside the card
+                contentPadding: const EdgeInsets.all(16.0),
                 title: Text(
                   bus['Bus_Name'],
                   style: const TextStyle(
@@ -59,10 +62,20 @@ class BusSelectionScreen extends StatelessWidget {
                         Text('Start Time: ${bus['Start_Time']}', style: const TextStyle(fontSize: 16)),
                       ],
                     ),
+                    Row(
+                      children: [
+                        const Icon(Icons.event_seat, color: Colors.blue),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Available Seats: ${bus['Available_Seats']}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 trailing: Text(
-                  'LKR ${NumberFormat('#,##0').format(bus['Ticket_Price'])}', // Format price as LKR
+                  'LKR ${NumberFormat('#,##0').format(bus['Ticket_Price'])}',
                   style: TextStyle(
                     color: Colors.green[800],
                     fontWeight: FontWeight.bold,
@@ -70,11 +83,10 @@ class BusSelectionScreen extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  // Navigate to the SeatBookingScreen1
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SeatBookingScreen1(),
+                      builder: (context) => BusBookingScreen(busData: bus),
                     ),
                   );
                 },

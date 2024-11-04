@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test1/Passenger/BUS_SEARCH/search_bus_01.dart';
 import 'package:test1/Passenger/QRcode/qr_scan.dart';
-import 'package:test1/Passenger/Seat%20booking/SeatBookingScreen1.dart';
+
 // import 'package:test1/Passenger/screens/searchBus.dart';
 
 // void main() {

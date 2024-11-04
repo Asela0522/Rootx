@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:test1/Passenger/API/api/payment_api.dart';
 
 class BusBookingScreen extends StatefulWidget {
   final Map<String, dynamic> busData;
 
-  const BusBookingScreen({Key? key, required this.busData}) : super(key: key);
+  const BusBookingScreen({
+    Key? key,
+    required this.busData,
+  }) : super(key: key);
 
   @override
   State<BusBookingScreen> createState() => _BusBookingScreenState();
@@ -11,16 +15,13 @@ class BusBookingScreen extends StatefulWidget {
 
 class _BusBookingScreenState extends State<BusBookingScreen> {
   final List<int> selectedSeats = [];
-  late List<int> bookedSeats;
-  late int totalSeats;
-  static const double seatPrice = 25.0;
+  List<int> bookedSeats = [];
 
   @override
   void initState() {
     super.initState();
-    // Initialize bookedSeats and totalSeats from busData
+    // Convert the booked seats from API to List<int>
     bookedSeats = List<int>.from(widget.busData['Booked_Seats_Number'] ?? []);
-    totalSeats = widget.busData['Total_Seats'];
   }
 
   @override
@@ -28,10 +29,36 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Bus Seats'),
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.orange,
       ),
       body: Column(
         children: [
+          // Bus Info Section
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.grey[200],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Bus: ${widget.busData['Bus_Name']}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Route: ${widget.busData['Start_Location']} to ${widget.busData['End_Location']}',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                Text(
+                  'Time: ${widget.busData['Start_Time']}',
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -40,8 +67,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                   BusSeatLayout(
                     selectedSeats: selectedSeats,
                     bookedSeats: bookedSeats,
-                    totalSeats: totalSeats,
                     onSeatSelected: _handleSeatSelection,
+                    totalSeats: widget.busData['Total_Seats'] ?? 49,
                   ),
                   const SizedBox(height: 20),
                   _buildSeatLegend(),
@@ -55,33 +82,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     );
   }
 
-  void _handleBooking() {
-    if (selectedSeats.isNotEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Booking Confirmed'),
-            content: Text('You have booked seats: ${selectedSeats.join(", ")}'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-
-      setState(() {
-        selectedSeats.clear();
-      });
-    }
-  }
-
   Widget _buildBottomBar() {
+    final double seatPrice = widget.busData['Ticket_Price'].toDouble();
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -109,11 +111,11 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                 ),
               ),
               Text(
-                'Total: \$${(selectedSeats.length * seatPrice).toStringAsFixed(2)}',
+                'Total: LKR ${(selectedSeats.length * seatPrice).toStringAsFixed(2)}',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: Colors.orange,
                 ),
               ),
             ],
@@ -121,7 +123,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
           ElevatedButton(
             onPressed: selectedSeats.isEmpty ? null : _handleBooking,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
+              backgroundColor: Colors.orange,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             ),
             child: const Text(
@@ -143,13 +145,68 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
       }
     });
   }
+
+  void _handleBooking() async{
+    final int amount = (selectedSeats.length * widget.busData['Ticket_Price']).toInt();
+
+    // Initiate payment
+    await PaymentService.initiatePayment(amount);
+    // Here you would implement the API call to book the seats
+    if (selectedSeats.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Confirm Booking'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Bus: ${widget.busData['Bus_Name']}'),
+                Text('From: ${widget.busData['Start_Location']}'),
+                Text('To: ${widget.busData['End_Location']}'),
+                Text('Selected Seats: ${selectedSeats.join(", ")}'),
+                Text('Total Amount: LKR ${(selectedSeats.length * widget.busData['Ticket_Price']).toStringAsFixed(2)}'),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Here you would make the API call to confirm the booking
+                  Navigator.of(context).pop();
+                  // Show success message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Booking successful!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  // Clear selected seats
+                  setState(() {
+                    selectedSeats.clear();
+                  });
+                },
+                child: const Text('Confirm'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 }
 
 class BusSeatLayout extends StatelessWidget {
   final Function(int) onSeatSelected;
   final List<int> selectedSeats;
   final List<int> bookedSeats;
-  final int totalSeats; // New field for total seats
+  final int totalSeats;
 
   const BusSeatLayout({
     Key? key,
@@ -165,6 +222,7 @@ class BusSeatLayout extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          // Front indicator
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -175,43 +233,79 @@ class BusSeatLayout extends StatelessWidget {
             child: const Center(
               child: Text(
                 'FRONT',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.black),
               ),
             ),
           ),
           const SizedBox(height: 20),
-          // Create a seat layout based on totalSeats
+
+          // Main seat layout
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for (int i = 1; i <= totalSeats; i++)
+              // Left side seats (2 columns)
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      _buildSeatColumn(1, 41, 4), // First column
+                      const SizedBox(width: 8),
+                      _buildSeatColumn(2, 42, 4), // Second column
+                    ],
+                  ),
+                ],
+              ),
+
+              // Aisle
+              const SizedBox(width: 24),
+
+              // Right side seats (2 columns)
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      _buildSeatColumn(3, 43, 4), // Third column
+                      const SizedBox(width: 8),
+                      _buildSeatColumn(4, 44, 4), // Fourth column
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Last row
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (int i = 45; i <= totalSeats; i++)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: _buildSeat(i),
                 ),
             ],
           ),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: const Center(
-              child: Text(
-                'REAR',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 
+  Widget _buildSeatColumn(int startNum, int maxNum, int increment) {
+    return Column(
+      children: [
+        for (int i = startNum; i <= maxNum; i += increment)
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: _buildSeat(i),
+          ),
+      ],
+    );
+  }
+
   Widget _buildSeat(int seatNumber) {
+    if (seatNumber > totalSeats) return const SizedBox(width: 40, height: 40);
+
     bool isSelected = selectedSeats.contains(seatNumber);
     bool isBooked = bookedSeats.contains(seatNumber);
 
@@ -222,9 +316,9 @@ class BusSeatLayout extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           color: isBooked
-              ? Colors.grey
+              ? Colors.red
               : isSelected
-              ? Colors.purple
+              ? Colors.orange
               : Colors.white,
           border: Border.all(
             color: Colors.grey.shade300,
@@ -246,7 +340,6 @@ class BusSeatLayout extends StatelessWidget {
   }
 }
 
-// Helper widget for seat legend
 Widget _buildSeatLegend() {
   return Container(
     padding: const EdgeInsets.all(16),
@@ -254,7 +347,7 @@ Widget _buildSeatLegend() {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _buildLegendItem('Available', Colors.white),
-        _buildLegendItem('Selected', Colors.purple),
+        _buildLegendItem('Selected', Colors.orange),
         _buildLegendItem('Booked', Colors.grey),
       ],
     ),
@@ -276,7 +369,7 @@ Widget _buildLegendItem(String label, Color color) {
       const SizedBox(width: 8),
       Text(
         label,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.black),
       ),
     ],
   );
