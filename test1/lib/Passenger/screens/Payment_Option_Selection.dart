@@ -89,7 +89,7 @@ class PaymentHomeScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>  const QRViewExample()),
+                      MaterialPageRoute(builder: (context) =>  const BusTicketScanner()),
                     );
                     // Handle QR Payment
                     // print("QR Payment Clicked");
