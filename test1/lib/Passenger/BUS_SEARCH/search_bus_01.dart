@@ -15,7 +15,8 @@ class SearchBus extends StatelessWidget {
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.black),
           bodyMedium: TextStyle(color: Colors.black),
-          titleLarge: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          titleLarge:
+              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       home: const BusBookingScreen(),
@@ -76,7 +77,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     }
   }
 
-  void _showLocationDialog(List<String> locations, Function(String) onLocationSelected) {
+  void _showLocationDialog(
+      List<String> locations, Function(String) onLocationSelected) {
     showDialog(
       context: context,
       builder: (context) {
@@ -109,7 +111,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushNamed(context, '/payments');  // please double check this navigation before demostration
+            Navigator.pushNamed(context,
+                '/payments'); // please double check this navigation before demostration
           },
         ),
         title: const Text('Bus Search'),
@@ -122,13 +125,16 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20),
-              _buildLocationSelector('From', selectedFromLocation, fromLocations, (selectedLocation) {
+              _buildLocationSelector(
+                  'From', selectedFromLocation, fromLocations,
+                  (selectedLocation) {
                 setState(() {
                   selectedFromLocation = selectedLocation;
                 });
               }),
               const SizedBox(height: 16),
-              _buildLocationSelector('To', selectedToLocation, toLocations, (selectedLocation) {
+              _buildLocationSelector('To', selectedToLocation, toLocations,
+                  (selectedLocation) {
                 setState(() {
                   selectedToLocation = selectedLocation;
                 });
@@ -137,20 +143,24 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
               ElevatedButton(
                 onPressed: () => _selectDate(context),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                child: const Text('Select Date', style: TextStyle(fontSize: 18)),
+                child:
+                    const Text('Select Date', style: TextStyle(fontSize: 18)),
               ),
               if (selectedDate != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Text(
                     'Selected Date: ${selectedDate!.toLocal()}'.split(' ')[0],
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () async {
-                  if (selectedFromLocation != null && selectedToLocation != null && selectedDate != null) {
+                  if (selectedFromLocation != null &&
+                      selectedToLocation != null &&
+                      selectedDate != null) {
                     var result = await ApiService.searchBus(
                       from: selectedFromLocation!,
                       to: selectedToLocation!,
@@ -160,18 +170,20 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BusSelectionScreen(busData: result),
+                          builder: (context) =>
+                              BusSelectionScreen(busData: result),
                         ),
                       );
                     } else {
-                      _showAlertDialog(context, 'No buses found. Please try again.');
+                      _showAlertDialog(
+                          context, 'No buses found. Please try again.');
                     }
                   } else {
                     _showAlertDialog(context, 'Please select all fields.');
                   }
                 },
-                child: const Text('Search Bus', style: TextStyle(fontSize: 18)),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                child: const Text('Search Bus', style: TextStyle(fontSize: 18)),
               ),
             ],
           ),
@@ -180,7 +192,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     );
   }
 
-  Widget _buildLocationSelector(String label, String? selectedValue, List<String> locations, Function(String) onLocationSelected) {
+  Widget _buildLocationSelector(String label, String? selectedValue,
+      List<String> locations, Function(String) onLocationSelected) {
     return GestureDetector(
       onTap: () {
         if (label == 'From' && !isLoadingFromLocations) {

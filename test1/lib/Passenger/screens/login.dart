@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test1/Passenger/API/api/login_api.dart'; // Import the backend API file
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
 class LoginPage1 extends StatefulWidget {
   const LoginPage1({super.key});
@@ -13,76 +14,81 @@ class LoginPage1 extends StatefulWidget {
 class _LoginPage1State extends State<LoginPage1> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginAPI _loginAPI = LoginAPI('http://10.11.3.159:5000'); // Your Flask API URL
+  final LoginAPI _loginAPI =
+      LoginAPI('http://10.11.3.159:5000'); // Your Flask API URL
+
+  bool _rememberMe = false; // Initialize "Remember Me" state
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRememberedCredentials(); // Load saved credentials
+  }
+
+  Future<void> _loadRememberedCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _rememberMe = prefs.getBool('rememberMe') ?? false;
+      if (_rememberMe) {
+        _emailController.text = prefs.getString('email') ?? '';
+        _passwordController.text = prefs.getString('password') ?? '';
+      }
+    });
+  }
+
+  Future<void> _saveCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (_rememberMe) {
+      await prefs.setString('email', _emailController.text);
+      await prefs.setString('password', _passwordController.text);
+    } else {
+      await prefs.remove('email');
+      await prefs.remove('password');
+    }
+    await prefs.setBool('rememberMe', _rememberMe);
+  }
 
   Future<void> _login() async {
     String email = _emailController.text;
     String password = _passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      // Handle empty fields
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-
-          title: const Text('Error'),
-          content: const Text('Please fill in both fields.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      _showDialog('Error', 'Please fill in both fields.');
       return;
     }
 
     try {
       String message = await _loginAPI.login(email, password);
-      // Handle successful login
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Success'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Navigator.of(context).pop();
-                Navigator.pushNamed(context, '/Login_Home_Screen'); //flutter navigation section
-                // Navigate to the next screen or home page
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      await _saveCredentials(); // Save credentials if "Remember Me" is checked
+      _showDialog('Success', message, isSuccess: true);
     } catch (error) {
-      // Handle error response
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Error'),
-          content: Text(error.toString()),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      _showDialog('Error', error.toString());
     }
   }
 
+  void _showDialog(String title, String content, {bool isSuccess = false}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              if (isSuccess) {
+                Navigator.pushNamed(context, '/Login_Home_Screen');
+              }
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _forgotPassword() {
-    // Here you can implement your password reset logic or navigate to a password reset page
-    Navigator.pushNamed(context, '/password reset'); // Navigate to password reset screen
+    Navigator.pushNamed(context, '/password reset');
   }
 
   @override
@@ -98,15 +104,16 @@ class _LoginPage1State extends State<LoginPage1> {
               height: 200,
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: Colors.orange, // Orange color from the image
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(50)),
+                color: Colors.orange,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(50)),
               ),
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage('assets/images/passenger.png'), // Replace with your image
+                    backgroundImage: AssetImage('assets/images/passenger.png'),
                   ),
                 ],
               ),
@@ -151,21 +158,27 @@ class _LoginPage1State extends State<LoginPage1> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 20),
 
-                  // Forgot Password and Remember Me Row
+                  // Remember Me Checkbox and Forgot Password Button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          Checkbox(value: false, onChanged: (bool? value) {}),
+                          Checkbox(
+                            value: _rememberMe,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _rememberMe = value ?? false;
+                              });
+                            },
+                          ),
                           const Text("Remember Me"),
                         ],
                       ),
                       TextButton(
-                        onPressed: _forgotPassword, // Call forgot password function
+                        onPressed: _forgotPassword,
                         child: const Text("Forgot Password?"),
                       ),
                     ],
@@ -175,7 +188,7 @@ class _LoginPage1State extends State<LoginPage1> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _login, // Call the login function
+                      onPressed: _login,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,
                         shape: RoundedRectangleBorder(
@@ -183,11 +196,12 @@ class _LoginPage1State extends State<LoginPage1> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 15),
                       ),
-                      child: const Text('Login', style: TextStyle(fontSize: 18)),
+                      child:
+                          const Text('Login', style: TextStyle(fontSize: 18)),
                     ),
                   ),
 
-                  // Other widgets (Sign Up)
+                  // Sign Up Section
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -195,7 +209,7 @@ class _LoginPage1State extends State<LoginPage1> {
                       const Text("Don’t have an Account? "),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/sign up'); // Navigate to sign-up screen
+                          Navigator.pushNamed(context, '/sign up');
                         },
                         child: const Text(
                           "Sign up",

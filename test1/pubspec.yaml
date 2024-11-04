@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences: ^2.1.1
 
   flutter_facebook_auth: ^6.0.2  # Check for the latest version
   url_launcher: ^6.1.7  # Check for the latest version

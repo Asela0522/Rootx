@@ -44,6 +44,7 @@ class PaymentMethodCard extends StatelessWidget {
   final IconData icon;
 
   const PaymentMethodCard({
+    super.key,
     required this.title,
     required this.subtitle,
     required this.icon,

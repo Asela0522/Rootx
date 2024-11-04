@@ -19,7 +19,8 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
   }
 
   Future<void> fetchBusData() async {
-    var busData = await BusApi.getBusInformation(); // Call the backend API here.
+    var busData =
+        await BusApi.getBusInformation(); // Call the backend API here.
     setState(() {
       buses = busData;
       isLoading = false;
@@ -48,11 +49,11 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
       body: isLoading
           ? Center(child: _buildLoadingIndicator())
           : ListView.builder(
-        itemCount: buses.length,
-        itemBuilder: (context, index) {
-          return BusCard(bus: buses[index]);
-        },
-      ),
+              itemCount: buses.length,
+              itemBuilder: (context, index) {
+                return BusCard(bus: buses[index]);
+              },
+            ),
     );
   }
 
@@ -70,7 +71,7 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
 class BusCard extends StatelessWidget {
   final Map<String, dynamic> bus;
 
-  const BusCard({Key? key, required this.bus}) : super(key: key);
+  const BusCard({super.key, required this.bus});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,8 @@ class BusCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.directions_bus, color: Colors.orange, size: 30),
+                const Icon(Icons.directions_bus,
+                    color: Colors.orange, size: 30),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(

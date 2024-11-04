@@ -5,9 +5,9 @@ class BusBookingScreen extends StatefulWidget {
   final Map<String, dynamic> busData;
 
   const BusBookingScreen({
-    Key? key,
+    super.key,
     required this.busData,
-  }) : super(key: key);
+  });
 
   @override
   State<BusBookingScreen> createState() => _BusBookingScreenState();
@@ -146,8 +146,9 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     });
   }
 
-  void _handleBooking() async{
-    final int amount = (selectedSeats.length * widget.busData['Ticket_Price']).toInt();
+  void _handleBooking() async {
+    final int amount =
+        (selectedSeats.length * widget.busData['Ticket_Price']).toInt();
 
     // Initiate payment
     await PaymentService.initiatePayment(amount);
@@ -166,7 +167,8 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                 Text('From: ${widget.busData['Start_Location']}'),
                 Text('To: ${widget.busData['End_Location']}'),
                 Text('Selected Seats: ${selectedSeats.join(", ")}'),
-                Text('Total Amount: LKR ${(selectedSeats.length * widget.busData['Ticket_Price']).toStringAsFixed(2)}'),
+                Text(
+                    'Total Amount: LKR ${(selectedSeats.length * widget.busData['Ticket_Price']).toStringAsFixed(2)}'),
               ],
             ),
             actions: [
@@ -209,12 +211,12 @@ class BusSeatLayout extends StatelessWidget {
   final int totalSeats;
 
   const BusSeatLayout({
-    Key? key,
+    super.key,
     required this.onSeatSelected,
     required this.selectedSeats,
     required this.bookedSeats,
     required this.totalSeats,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -318,8 +320,8 @@ class BusSeatLayout extends StatelessWidget {
           color: isBooked
               ? Colors.red
               : isSelected
-              ? Colors.orange
-              : Colors.white,
+                  ? Colors.orange
+                  : Colors.white,
           border: Border.all(
             color: Colors.grey.shade300,
             width: 1,
