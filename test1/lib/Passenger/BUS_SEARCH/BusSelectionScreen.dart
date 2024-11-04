@@ -19,6 +19,7 @@ class BusSelectionScreen extends StatelessWidget {
         title: const Text('Bus Selection'),
         backgroundColor: Colors.orange,
       ),
+<<<<<<< HEAD
       body: Container(
         color: Colors.grey[200],
         child: ListView.builder(
@@ -96,6 +97,21 @@ class BusSelectionScreen extends StatelessWidget {
             );
           },
         ),
+=======
+      body: ListView.builder(
+        itemCount: busData.length,
+        itemBuilder: (context, index) {
+          final bus = busData[index];
+          return Card(
+            child: ListTile(
+              title: Text(bus['Bus_Name']),
+              subtitle: Text(
+                  'From: ${bus['Start_Location']} To: ${bus['End_Location']}'),
+              trailing: Text('\$${bus['Ticket_Price']}'),
+            ),
+          );
+        },
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
       ),
     );
   }

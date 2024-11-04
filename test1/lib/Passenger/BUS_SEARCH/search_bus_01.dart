@@ -120,6 +120,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
+<<<<<<< HEAD
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -165,6 +166,58 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                       from: selectedFromLocation!,
                       to: selectedToLocation!,
                       date: selectedDate!,
+=======
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            isLoadingFromLocations
+                ? const CircularProgressIndicator()
+                : buildDropdownField(
+                    'From', selectedFromLocation, fromLocations, (value) {
+                    setState(() {
+                      selectedFromLocation = value;
+                    });
+                  }),
+            const SizedBox(height: 16),
+            isLoadingToLocations
+                ? const CircularProgressIndicator()
+                : buildDropdownField('To', selectedToLocation, toLocations,
+                    (value) {
+                    setState(() {
+                      selectedToLocation = value;
+                    });
+                  }),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () => _selectDate(context),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              child: const Text('Select Date', style: TextStyle(fontSize: 18)),
+            ),
+            if (selectedDate != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                    'Selected Date: ${selectedDate!.toLocal()}'.split(' ')[0]),
+              ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () async {
+                if (selectedFromLocation != null &&
+                    selectedToLocation != null &&
+                    selectedDate != null) {
+                  var result = await ApiService.searchBus(
+                    from: selectedFromLocation!,
+                    to: selectedToLocation!,
+                    date: selectedDate!,
+                  );
+                  if (result != null && result.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            BusSelectionScreen(busData: result),
+                      ),
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
                     );
                     if (result != null && result.isNotEmpty) {
                       Navigator.push(
@@ -179,6 +232,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
                           context, 'No buses found. Please try again.');
                     }
                   } else {
+<<<<<<< HEAD
                     _showAlertDialog(context, 'Please select all fields.');
                   }
                 },
@@ -214,6 +268,21 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 3),
+=======
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('No buses found. Please try again.')),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please select all fields.')),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              child: const Text('Search Bus'),
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
             ),
           ],
         ),
@@ -231,6 +300,7 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
     );
   }
 
+<<<<<<< HEAD
   void _showAlertDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -248,6 +318,20 @@ class _BusBookingScreenState extends State<BusBookingScreen> {
           ],
         );
       },
+=======
+  Widget buildDropdownField(String label, String? selectedValue,
+      List<String> items, ValueChanged<String?> onChanged) {
+    return DropdownButtonFormField<String>(
+      value: selectedValue,
+      isExpanded: true,
+      decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+      items: items
+          .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+          .toList(),
+      onChanged: onChanged,
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
     );
   }
 }

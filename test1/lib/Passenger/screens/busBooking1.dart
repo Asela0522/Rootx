@@ -54,6 +54,7 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
                 return BusCard(bus: buses[index]);
               },
             ),
+<<<<<<< HEAD
     );
   }
 
@@ -64,6 +65,8 @@ class _BusSelectionScreenState extends State<BusSelectionScreen> {
       child: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
       ),
+=======
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
     );
   }
 }
@@ -91,6 +94,7 @@ class BusCard extends StatelessWidget {
                 const Icon(Icons.directions_bus,
                     color: Colors.orange, size: 30),
                 const SizedBox(width: 8),
+<<<<<<< HEAD
                 Expanded(
                   child: Text(
                     bus['Bus_Name'],
@@ -109,6 +113,10 @@ class BusCard extends StatelessWidget {
                     color: Colors.green,
                   ),
                 ),
+=======
+                Text(bus['Bus_Name'],
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+>>>>>>> 9de0f8e52010dea7ecf927afb8aef4b995d31a73
               ],
             ),
             const SizedBox(height: 10),
