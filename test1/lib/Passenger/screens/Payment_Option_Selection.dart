@@ -2,27 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:test1/Passenger/BUS_SEARCH/search_bus_01.dart';
 import 'package:test1/Passenger/QRcode/qr_scan.dart';
 
-// import 'package:test1/Passenger/screens/searchBus.dart';
-
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false, // Removes the debug banner
-//       title: 'Payment App',
-//       theme: ThemeData(
-//         primarySwatch: Colors.orange, // Sets the primary theme color
-//       ),
-//       home: const PaymentHomeScreen(), // Sets the PaymentHomeScreen as the starting screen
-//     );
-//   }
-// }
 
 class PaymentHomeScreen extends StatelessWidget {
   const  PaymentHomeScreen({super.key}); // Added key for refresh
@@ -89,7 +68,7 @@ class PaymentHomeScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>  const BusTicketScanner()),
+                      MaterialPageRoute(builder: (context) =>   BusTicketScanner()),
                     );
                     // Handle QR Payment
                     // print("QR Payment Clicked");
